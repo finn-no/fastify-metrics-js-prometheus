@@ -1,0 +1,37 @@
+{
+  "name": "fastify-metrics-js-prometheus",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "tap",
+    "lint:format": "eslint --fix .",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/finn-no/fastify-metrics-js-prometheus.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/finn-no/fastify-metrics-js-prometheus/issues"
+  },
+  "homepage": "https://github.com/finn-no/fastify-metrics-js-prometheus#readme",
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "prettier": "^1.19.1",
+    "tap": "^14.10.6"
+  },
+  "dependencies": {
+    "@metrics/guard": "^1.0.1",
+    "@metrics/prometheus-consumer": "^3.0.0",
+    "fastify-plugin": "^1.6.0",
+    "prometheus-gc-stats": "^0.6.2"
+  }
+}
