@@ -9,7 +9,7 @@ const app = require('fastify')();
 const pluginMetrics = require('fastify-metrics-js-prometheus');
 const client = require('prom-client');
 
-app.register(pluginMetrics, options);
+app.register(pluginMetrics, { client });
 ```
 
 By default, a metrics scraping page for prometheus will be served at `/metrics`. This can be configured by setting the plugin option `pathname`.
