@@ -26,10 +26,10 @@ app.register(pluginMetrics, {
 });
 ```
 
-| name     | description                                                                      | type     | default    | required |
-| -------- | -------------------------------------------------------------------------------- | -------- | ---------- | -------- |
-| client   | metrics client library. `prom-client` is currently supported.                    | `object` |            | `yes`    |
-| pathname | url pathname to serve metrics scraping page on.                                  | `string` | `/metrics` |          |
-| logger   | log4j compatible logger (usually pino) to use for logging.                       | `object` |            |          |
-| guard    | options to be passed to the @metrics/guard module (used internally.)             | `object` | `{}`       |          |
-| consumer | options to be passed to the @metrics/prometheus-consumer module used internally. | `object` | `{}`       |          |
+| name     | description                                                                                                                                    | type     | default    | required |
+| -------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ---------- | -------- |
+| client   | metrics client library. [prom-client](https://www.npmjs.com/package/prom-client) is currently supported.                                       | `object` |            | `yes`    |
+| pathname | url pathname to serve metrics scraping page on.                                                                                                | `string` | `/metrics` |          |
+| logger   | log4j compatible logger (usually [pino](https://www.npmjs.com/package/pino)) to use for logging.                                               | `object` |            |          |
+| guard    | options to be passed to the [@metrics/guard](https://www.npmjs.com/package/@metrics/guard) module (used internally.)                           | `object` | `{}`       |          |
+| consumer | options to be passed to the [@metrics/prometheus-consumer](https://www.npmjs.com/package/@metrics/prometheus-consumer) module used internally. | `object` | `{}`       |          |
