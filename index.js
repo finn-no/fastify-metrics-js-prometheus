@@ -50,16 +50,14 @@ module.exports = fp((fastify, opts, done) => {
     if (!Array.isArray(metrics)) metrics = [metrics];
 
     for (const stream of metrics) {
-        stream
-            .on('error', err => {
-                if (err)
-                    logger.error(
-                        'an error occurred in the @metrics/client module',
-                        err,
-                    );
-            })
-            .pipe(mGuard)
-            .pipe(mConsumer);
+        stream.on('error', err => {
+            logger.error(
+                'an error occurred in the @metrics/client module',
+                err,
+            );
+        });
+
+        stream.pipe(mGuard).pipe(mConsumer);
     }
 
     const { collectDefaultMetrics } = client;
@@ -69,11 +67,9 @@ module.exports = fp((fastify, opts, done) => {
     gcStats(mConsumer.registry)();
 
     fastify.get(pathname, (request, reply) => {
-        const merged = client.Registry.merge([
-            mConsumer.registry,
-            client.register,
-        ]);
-        reply.type(merged.contentType).send(merged.metrics());
+        reply
+            .type(mConsumer.registry.contentType)
+            .send(mConsumer.registry.metrics());
     });
 
     done();
