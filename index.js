@@ -57,8 +57,10 @@ module.exports = fp((fastify, opts, done) => {
             );
         });
 
-        stream.pipe(mGuard).pipe(mConsumer);
+        stream.pipe(mGuard);
     }
+
+    mGuard.pipe(mConsumer);
 
     const { collectDefaultMetrics } = client;
     collectDefaultMetrics({ register: mConsumer.registry });
