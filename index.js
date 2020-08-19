@@ -75,4 +75,7 @@ module.exports = fp((fastify, opts, done) => {
     });
 
     done();
+}, {
+    fastify: '^3.0.0',
+    name: 'fastify-metrics-js-prometheus',
 });
