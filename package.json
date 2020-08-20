@@ -1,6 +1,6 @@
 {
   "name": "fastify-metrics-js-prometheus",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "A Fastify plugin for consuming @metrics/client (https://www.npmjs.com/package/@metrics/client) streams and rendering a prometheus scraping page",
   "main": "index.js",
   "scripts": {
