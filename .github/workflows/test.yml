@@ -1,7 +1,7 @@
 name: Run Lint and Tests
 
 on: push
-
+ 
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -10,7 +10,7 @@ jobs:
         os: [ubuntu-latest, macOS-latest, windows-latest]
         node-version: [14.x, 16.x]
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
