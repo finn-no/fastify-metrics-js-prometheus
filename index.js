@@ -2,7 +2,9 @@
 
 'use strict';
 
+const ProcessMetrics = require('@metrics/process');
 const Consumer = require('@metrics/prometheus-consumer');
+const abslog = require('abslog');
 const Guard = require('@metrics/guard');
 const fp = require('fastify-plugin');
 
@@ -15,33 +17,51 @@ module.exports = fp((fastify, opts, done) => {
         consumer = {},
     } = opts;
     let { metrics = [] } = opts;
+    const log = abslog(logger);
 
-    const mConsumer = new Consumer({ ...consumer, client, logger });
+    const mConsumer = new Consumer({ ...consumer, client, logger: log });
+    const mProcess = new ProcessMetrics();
     const mGuard = new Guard(guard);
 
     mConsumer.on('error', err => {
         if (err)
-            logger.error(
+        log.error(
                 'an error occurred when piping metrics into the prometheus consumer module',
                 err,
             );
     });
 
+    mProcess.on('drop', metric => {
+        log.trace(`Process metric "${metric.name}" dropped`);
+    });
+
+    mProcess.on('collect:start', () => {
+        log.trace('Started collecting process metrics');
+    });
+
+    mProcess.on('collect:end', () => {
+        log.trace('Stopped collecting process metrics');
+    });
+
+    mProcess.on('error', err => {
+        if (err) log.error('Process metric stream error', err);
+    });
+
     mGuard.on('warn', info => {
-        logger.warn(
+        log.warn(
             `${info} is creating a growing number of metric permutations. Metrics will begin being dropped if the increase continues.`,
         );
     });
 
     mGuard.on('drop', metric => {
-        logger.error(
+        log.error(
             `${metric.name} has created too many permutations. Metric has been dropped.`,
         );
     });
 
     mGuard.on('error', err => {
         if (err)
-            logger.error(
+        log.error(
                 'an error occurred when piping metrics into the @metrics/guard module',
                 err,
             );
@@ -51,7 +71,7 @@ module.exports = fp((fastify, opts, done) => {
 
     for (const stream of metrics) {
         stream.on('error', err => {
-            logger.error(
+            log.error(
                 'an error occurred in the @metrics/client module',
                 err,
             );
@@ -60,18 +80,18 @@ module.exports = fp((fastify, opts, done) => {
         stream.pipe(mGuard);
     }
 
+    mProcess.pipe(mGuard);
     mGuard.pipe(mConsumer);
+    
+    mProcess.start({
+        gc: false,
+    });
 
-    const { collectDefaultMetrics } = client;
-    collectDefaultMetrics({ register: mConsumer.registry });
-    // eslint-disable-next-line global-require
-    const gcStats = require('prometheus-gc-stats');
-    gcStats(mConsumer.registry)();
-
-    fastify.get(pathname, (request, reply) => {
+    fastify.get(pathname, async (request, reply) => {
+        const mObj = await mConsumer.registry.metrics();
         reply
             .type(mConsumer.registry.contentType)
-            .send(mConsumer.registry.metrics());
+            .send(mObj);
     });
 
     done();

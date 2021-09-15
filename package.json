@@ -4,8 +4,8 @@
   "description": "A Fastify plugin for consuming @metrics/client (https://www.npmjs.com/package/@metrics/client) streams and rendering a prometheus scraping page",
   "main": "index.js",
   "scripts": {
-    "test": "tap",
-    "lint:format": "eslint --fix .",
+    "test": "tap --no-check-coverage",
+    "lint:fix": "eslint --fix .",
     "lint": "eslint ."
   },
   "repository": {
@@ -21,21 +21,22 @@
   "homepage": "https://github.com/finn-no/fastify-metrics-js-prometheus#readme",
   "devDependencies": {
     "@metrics/client": "^2.5.0",
-    "eslint": "^6.8.0",
+    "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-config-prettier": "^6.9.0",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.20.0",
-    "eslint-plugin-prettier": "^3.1.2",
-    "fastify": "3.2.1",
-    "prettier": "^1.19.1",
-    "prom-client": "12.0.0",
-    "supertest": "^4.0.2",
-    "tap": "^14.10.6"
+    "eslint-plugin-prettier": "^4.0.0",
+    "fastify": "3.21.1",
+    "prettier": "^2.4.0",
+    "prom-client": "13.2.0",
+    "supertest": "^6.1.6",
+    "tap": "^15.0.9"
   },
   "dependencies": {
     "@metrics/guard": "^1.0.1",
+    "@metrics/process": "^2.2.0",
     "@metrics/prometheus-consumer": "^3.0.0",
-    "fastify-plugin": "2.3.0",
-    "prometheus-gc-stats": "^0.6.2"
+    "abslog": "^2.4.0",
+    "fastify-plugin": "3.0.0"
   }
 }
