@@ -5,13 +5,14 @@ A Fastify plugin for consuming @metrics/client (https://www.npmjs.com/package/@m
 ## Usage
 
 ```js
-const app = require('fastify')();
-const pluginMetrics = require('fastify-metrics-js-prometheus');
-const client = require('prom-client');
-const Metrics = require('@metrics/client');
+import fastify from 'fastify';
+import plugin from 'fastify-metrics-js-prometheus';
+import client from 'prom-client';
+import Metrics from '@metrics/client';
+const app = fastify();
 const metrics = new Metrics();
 
-app.register(pluginMetrics, { client, metrics });
+app.register(plugin, { client, metrics });
 ```
 
 By default, a metrics scraping page for prometheus will be served at `/metrics`. This can be configured by setting the plugin option `pathname`.

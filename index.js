@@ -2,13 +2,13 @@
 
 'use strict';
 
-const ProcessMetrics = require('@metrics/process');
-const Consumer = require('@metrics/prometheus-consumer');
-const abslog = require('abslog');
-const Guard = require('@metrics/guard');
-const fp = require('fastify-plugin');
+import ProcessMetrics from '@metrics/process';
+import Consumer from '@metrics/prometheus-consumer';
+import abslog from 'abslog';
+import Guard from '@metrics/guard';
+import fp from 'fastify-plugin';
 
-module.exports = fp((fastify, opts, done) => {
+export default fp((fastify, opts, done) => {
     const {
         client,
         pathname = '/metrics',
@@ -83,9 +83,7 @@ module.exports = fp((fastify, opts, done) => {
     mProcess.pipe(mGuard);
     mGuard.pipe(mConsumer);
     
-    mProcess.start({
-        gc: false,
-    });
+    mProcess.start();
 
     fastify.get(pathname, async (request, reply) => {
         const mObj = await mConsumer.registry.metrics();
@@ -96,6 +94,5 @@ module.exports = fp((fastify, opts, done) => {
 
     done();
 }, {
-    fastify: '^3.0.0',
     name: 'fastify-metrics-js-prometheus',
 });
