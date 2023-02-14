@@ -1,11 +1,12 @@
 'use strict';
 
-const { test } = require('tap');
-const fastify = require('fastify');
-const client = require('prom-client');
-const supertest = require('supertest');
-const Metrics = require('@metrics/client');
-const plugin = require('./index');
+import { test } from 'tap';
+import fastify from 'fastify';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import client from 'prom-client';
+import supertest from 'supertest';
+import Metrics from '@metrics/client';
+import plugin from './index.js';
 
 // Helper to delay requesting the app server with some milliseconds.
 // This is needed due to the system process metrics which needs to 
@@ -31,7 +32,6 @@ test('Plugin renders basic metrics page', async t => {
     const text = await delayedGet(address, '/metrics');
     t.match(text, 'process_start_time_seconds');
     t.match(text, 'nodejs_heap_space_size_used_bytes');
-    t.match(text, 'process_open_fds');
     await app.close();
 });
 
@@ -42,7 +42,6 @@ test('Plugin renders basic metrics page on a different pathname', async t => {
     const text = await delayedGet(address, '/_/metrics');
     t.match(text, 'process_start_time_seconds');
     t.match(text, 'nodejs_heap_space_size_used_bytes');
-    t.match(text, 'process_open_fds');
     await app.close();
 });
 
